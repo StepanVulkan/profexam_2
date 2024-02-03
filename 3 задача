@@ -1,0 +1,16 @@
+# Функция для линейного поиска
+def linear_search(company_name, data):
+    for line in data:
+        if line[4] == company_name:
+            return line
+    return None
+
+while True:
+    company_name = input("Введите название компании (для выхода введите 'None'): ")
+    if company_name.lower() == 'none':
+        break
+    result = linear_search(company_name, [line.strip().split(';') for line in lines[1:]])
+    if result:
+        print(f"В {result[4]} найдена вакансия: {result[3]}. З/п составит: {result[0]}")
+    else:
+        print("К сожалению, ничего не удалось найти")
