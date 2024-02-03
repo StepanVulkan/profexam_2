@@ -1,0 +1,24 @@
+# Функция для вычисления процентного отношения
+def calculate_percentage(salary, avg_salary):
+    return (salary / avg_salary) * 100
+
+# Чтение данных из файла и расчет средних зарплат
+salary_data = [line.strip().split(';') for line in lines[1:]]
+avg_salary_by_work_type = {}
+
+for data in salary_data:
+    work_type, salary = data[1], int(data[0])
+    if work_type not in avg_salary_by_work_type:
+        avg_salary_by_work_type[work_type] = [salary, 1]
+    else:
+        avg_salary_by_work_type[work_type][0] += salary
+        avg_salary_by_work_type[work_type][1] += 1
+
+# Запись данных с процентами в новый файл vacancy_procent.csv
+with open('vacancy_procent.csv', 'w') as procent_file:
+    procent_file.write("Salary;Work_Type;Company_Size;Role;Company;percent\n")
+    for data in salary_data:
+        salary, work_type = int(data[0]), data[1]
+        avg_salary = avg_salary_by_work_type[work_type][0] / avg_salary_by_work_type[work_type][1]
+        percent = calculate_percentage(salary, avg_salary)
+        procent_file.write(f"{';'.join(data)};{percent:.2f}%\n")
