@@ -1,0 +1,16 @@
+# Используем хэш-таблицу для группировки по компаниям
+company_vacancies = {}
+
+for line in lines[1:]:
+    salary, work_type, company_size, role, company = line.strip().split(';')
+    if company not in company_vacancies:
+        company_vacancies[company] = []
+    company_vacancies[company].append((role, int(salary), work_type))
+
+# Выводим компанию с самым большим количеством вакансий
+max_company = max(company_vacancies, key=lambda k: len(company_vacancies[k]))
+print(f"Компания с самым большим количеством вакансий: {max_company}")
+
+# Выводим все вакансии данной компании
+for role, salary, work_type in company_vacancies[max_company]:
+    print(f"{role}, {salary}, {work_type}")
