@@ -1,0 +1,19 @@
+# Функция для быстрой сортировки
+def quicksort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x[2] < pivot[2]]
+    middle = [x for x in arr if x[2] == pivot[2]]
+    right = [x for x in arr if x[2] > pivot[2]]
+    return quicksort(left) + middle + quicksort(right)
+
+# Сортировка данных по количеству сотрудников
+sorted_data = quicksort([line.strip().split(';') for line in lines[1:]])
+
+# Поиск компании с наименьшим количеством сотрудников и нужной профессией
+for data in sorted_data:
+    company, role, salary = data[4], data[3], int(data[0])
+    if role == "классный руководитель":
+        print(f"В компании {company} есть заданная профессия: {role}, з/п в такой компании составит: {salary}")
+        break
