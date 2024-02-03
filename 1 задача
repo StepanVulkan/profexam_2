@@ -1,0 +1,26 @@
+# Чтение данных из файла
+with open('vacancy.csv', 'r') as file:
+    lines = file.readlines()
+
+# Инициализация переменных
+max_salary_by_company = {}
+
+# Обработка данных
+for line in lines:
+    salary, work_type, company_size, role, company = line.strip().split(';')
+    salary = int(salary)
+    
+    # Проверка, является ли текущая зарплата максимальной для компании
+    if company not in max_salary_by_company or salary > max_salary_by_company[company]['Salary']:
+        max_salary_by_company[company] = {'Role': role, 'Salary': salary}
+
+# Создание и запись в новый файл vacancy_new.csv
+with open('vacancy_new.csv', 'w') as new_file:
+    new_file.write("company;role;Salary\n")
+    for company, data in max_salary_by_company.items():
+        new_file.write(f"{company};{data['Role']};{data['Salary']}\n")
+
+# Вывод топ-3 самых высокооплачиваемых профессий
+sorted_top_3 = sorted(max_salary_by_company.items(), key=lambda x: x[1]['Salary'], reverse=True)[:3]
+for company, data in sorted_top_3:
+    print(f"{company} - {data['Role']} - {data['Salary']}")
